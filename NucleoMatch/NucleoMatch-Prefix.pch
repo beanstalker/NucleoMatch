@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'NucleoMatch' target in the 'NucleoMatch' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
