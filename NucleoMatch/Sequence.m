@@ -28,11 +28,11 @@
     }
 }
 
--(id) initWithSequence:(NSString *)theSequence type:(nucleicAcidType)acid
+-(id) initWithSequence:(NSString *)theSequence
 {
     self = [super init];
     seq = [[NSString alloc] initWithString:theSequence];
-    type = acid;
+    //type = acid;
     return self;
 }
 

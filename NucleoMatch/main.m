@@ -54,7 +54,7 @@ int main(int argc, const char * argv[])
         while ([scanner isAtEnd] == NO) {
             [scanner scanUpToCharactersFromSet:newline intoString:&line];
             //NSLog(@"line %@", line);
-            seq = [[Sequence alloc] initWithSequence:line type:RNA];
+            seq = [[Sequence alloc] initWithSequence:line];
             //[seq print];
             [library addSequence:seq];
         }

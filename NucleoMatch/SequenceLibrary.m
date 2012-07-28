@@ -43,8 +43,9 @@
 -(void) print
 {
     for (Sequence *theSeq in seqLib){
-        const char *cString = [theSeq.seq cStringUsingEncoding:NSUTF8StringEncoding];
+        const char *cString = [[theSeq seq] cStringUsingEncoding:NSUTF8StringEncoding];
         printf("%s\n", cString);
+        //[[NSFileHandle fileHandleWithStandardOutput] writeData:[[theSeq seq] dataUsingEncoding: NSUTF8StringEncoding]];
     }
     NSLog(@"%i", numberOfSequences);
 }
