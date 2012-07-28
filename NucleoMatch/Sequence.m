@@ -16,7 +16,7 @@
 
 -(void) print
 {
-    NSLog(@"%@", seq);
+    NSLog(@"seq  %@", seq);
 }
 
 -(BOOL) isEqual:(Sequence *)theSequence
@@ -26,6 +26,14 @@
     } else {
         return NO;
     }
+}
+
+-(id) initWithSequence:(NSString *)theSequence type:(nucleicAcidType)acid
+{
+    self = [super init];
+    seq = [[NSString alloc] initWithString:theSequence];
+    type = acid;
+    return self;
 }
 
 @end

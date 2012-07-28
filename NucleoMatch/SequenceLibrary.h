@@ -12,11 +12,15 @@
 @interface SequenceLibrary : NSObject
 {
     NSMutableArray *seqLib;
+    int numberOfSequences;
 }
+
+@property int numberOfSequences;
 
 -(id) init;
 -(void) addSequence:(Sequence *)sequence;
 -(void) removeSequence:(Sequence *)sequence;
 -(void) removeSequenceAtIndex:(int)index;
+-(void) print;
 
 @end

@@ -37,6 +37,8 @@
 		C10568BD15C11EFF0079B3DC /* Sequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sequence.m; sourceTree = "<group>"; };
 		C10568BF15C11F7D0079B3DC /* SequenceLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequenceLibrary.h; sourceTree = "<group>"; };
 		C10568C015C11F7D0079B3DC /* SequenceLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequenceLibrary.m; sourceTree = "<group>"; };
+		C194A86915C3C08500DC88B0 /* RNAseqs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RNAseqs.txt; sourceTree = "<group>"; };
+		C194A86B15C3C0AF00DC88B0 /* SmallSeqs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = SmallSeqs.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		C10568B015C1166B0079B3DC /* NucleoMatch */ = {
 			isa = PBXGroup;
 			children = (
+				C194A86915C3C08500DC88B0 /* RNAseqs.txt */,
 				C10568B115C1166B0079B3DC /* main.m */,
 				C10568BF15C11F7D0079B3DC /* SequenceLibrary.h */,
 				C10568C015C11F7D0079B3DC /* SequenceLibrary.m */,
@@ -86,6 +89,7 @@
 				C10568BD15C11EFF0079B3DC /* Sequence.m */,
 				C10568B515C1166B0079B3DC /* NucleoMatch.1 */,
 				C10568B315C1166B0079B3DC /* Supporting Files */,
+				C194A86B15C3C0AF00DC88B0 /* SmallSeqs.txt */,
 			);
 			path = NucleoMatch;
 			sourceTree = "<group>";
@@ -241,6 +245,7 @@
 				C10568BB15C1166B0079B3DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

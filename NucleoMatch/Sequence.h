@@ -23,5 +23,6 @@ typedef enum {RNA, DNA} nucleicAcidType;
 
 -(void) print;
 -(BOOL) isEqual:(Sequence *)theSequence;
+-(id) initWithSequence:(NSString *)theSequence type:(nucleicAcidType)acid;
 
 @end
