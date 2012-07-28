@@ -10,4 +10,28 @@
 
 @implementation SequenceLibrary
 
+-(id) init
+{
+    self = [super init];
+    if (self) {
+        seqLib = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+-(void) addSequence:(Sequence *)sequence
+{
+    [seqLib addObject:sequence];
+}
+
+-(void) removeSequence:(Sequence *)sequence
+{
+    [seqLib removeObject:sequence];
+}
+
+-(void) removeSequenceAtIndex:(int)index
+{
+    [seqLib removeObjectAtIndex:index];
+}
+
 @end

@@ -12,5 +12,20 @@
 
 @synthesize percentGC;
 @synthesize seq;
+@synthesize type;
+
+-(void) print
+{
+    NSLog(@"%@", seq);
+}
+
+-(BOOL) isEqual:(Sequence *)theSequence
+{
+    if ([seq isEqualToString:theSequence.seq]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
 @end

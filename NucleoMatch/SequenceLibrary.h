@@ -14,4 +14,9 @@
     NSMutableArray *seqLib;
 }
 
+-(id) init;
+-(void) addSequence:(Sequence *)sequence;
+-(void) removeSequence:(Sequence *)sequence;
+-(void) removeSequenceAtIndex:(int)index;
+
 @end

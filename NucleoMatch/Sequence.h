@@ -8,18 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {RNA, DNA} nucleicAcidType;
+
 @interface Sequence : NSObject
 {
-    NSMutableString *seq;
+    NSString *seq;
     int percentGC;
-    enum nucleicAcidType {RNA, DNA};
+    nucleicAcidType type;
 }
 
-@property NSMutableString *seq;
-@property int percentGC;
+@property (copy, nonatomic) NSString *seq;
+@property (nonatomic) int percentGC;
+@property (nonatomic) nucleicAcidType type;
 
 -(void) print;
--(void) setNucleicAcidType:(enum nucleicAcidType)acidType;
--(void) nucleicAcidType:(enum nucleicAcidType)acidType;
+-(BOOL) isEqual:(Sequence *)theSequence;
 
 @end
