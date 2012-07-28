@@ -46,6 +46,7 @@
         const char *cString = [[theSeq seq] cStringUsingEncoding:NSUTF8StringEncoding];
         printf("%s\n", cString);
         //[[NSFileHandle fileHandleWithStandardOutput] writeData:[[theSeq seq] dataUsingEncoding: NSUTF8StringEncoding]];
+        //- (NSString *)debugDescription;
     }
     NSLog(@"%i", numberOfSequences);
 }
