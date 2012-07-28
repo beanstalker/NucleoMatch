@@ -10,6 +10,8 @@
 		C10568AF15C1166B0079B3DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C10568AE15C1166B0079B3DC /* Foundation.framework */; };
 		C10568B215C1166B0079B3DC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C10568B115C1166B0079B3DC /* main.m */; };
 		C10568B615C1166B0079B3DC /* NucleoMatch.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C10568B515C1166B0079B3DC /* NucleoMatch.1 */; };
+		C10568BE15C11EFF0079B3DC /* Sequence.m in Sources */ = {isa = PBXBuildFile; fileRef = C10568BD15C11EFF0079B3DC /* Sequence.m */; };
+		C10568C115C11F7D0079B3DC /* SequenceLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = C10568C015C11F7D0079B3DC /* SequenceLibrary.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,8 +31,12 @@
 		C10568AA15C1166B0079B3DC /* NucleoMatch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NucleoMatch; sourceTree = BUILT_PRODUCTS_DIR; };
 		C10568AE15C1166B0079B3DC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C10568B115C1166B0079B3DC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C10568B415C1166B0079B3DC /* NucleoMatch-Prefix.pch */ = {isa = PBXFileReference; path = "NucleoMatch-Prefix.pch"; sourceTree = "<group>"; };
+		C10568B415C1166B0079B3DC /* NucleoMatch-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NucleoMatch-Prefix.pch"; sourceTree = "<group>"; };
 		C10568B515C1166B0079B3DC /* NucleoMatch.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = NucleoMatch.1; sourceTree = "<group>"; };
+		C10568BC15C11EFF0079B3DC /* Sequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sequence.h; sourceTree = "<group>"; };
+		C10568BD15C11EFF0079B3DC /* Sequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sequence.m; sourceTree = "<group>"; };
+		C10568BF15C11F7D0079B3DC /* SequenceLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequenceLibrary.h; sourceTree = "<group>"; };
+		C10568C015C11F7D0079B3DC /* SequenceLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequenceLibrary.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +80,10 @@
 			isa = PBXGroup;
 			children = (
 				C10568B115C1166B0079B3DC /* main.m */,
+				C10568BF15C11F7D0079B3DC /* SequenceLibrary.h */,
+				C10568C015C11F7D0079B3DC /* SequenceLibrary.m */,
+				C10568BC15C11EFF0079B3DC /* Sequence.h */,
+				C10568BD15C11EFF0079B3DC /* Sequence.m */,
 				C10568B515C1166B0079B3DC /* NucleoMatch.1 */,
 				C10568B315C1166B0079B3DC /* Supporting Files */,
 			);
@@ -139,6 +149,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C10568B215C1166B0079B3DC /* main.m in Sources */,
+				C10568BE15C11EFF0079B3DC /* Sequence.m in Sources */,
+				C10568C115C11F7D0079B3DC /* SequenceLibrary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
