@@ -8,6 +8,8 @@
 //
 
 #import "SequenceLibrary.h"
+#import <stdio.h>
+#import <stdlib.h>
 
 @implementation SequenceLibrary
 

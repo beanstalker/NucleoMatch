@@ -10,8 +10,6 @@
 #import <Foundation/Foundation.h>
 #import "SequenceLibrary.h"
 #import "Sequence.h"
-#include <stdio.h>
-
 
 int main(int argc, const char * argv[])
 {
