@@ -4,6 +4,7 @@
 //
 //  Created by John Hervey on 26/07/12.
 //  Copyright (c) 2012 JRDH. All rights reserved.
+//  Uses Automatic reference counting (ARC).
 //
 
 #import "SequenceLibrary.h"
@@ -43,7 +44,8 @@
 -(void) print
 {
     for (Sequence *theSeq in seqLib){
-        const char *cString = [[theSeq seq] cStringUsingEncoding:NSUTF8StringEncoding];
+        const char *cString =
+        [[theSeq seq] cStringUsingEncoding:NSUTF8StringEncoding];
         printf("%s\n", cString);
         //[[NSFileHandle fileHandleWithStandardOutput] writeData:[[theSeq seq] dataUsingEncoding: NSUTF8StringEncoding]];
         //- (NSString *)debugDescription;

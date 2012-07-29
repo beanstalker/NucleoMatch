@@ -4,6 +4,7 @@
 //
 //  Created by John Hervey on 26/07/12.
 //  Copyright (c) 2012 JRDH. All rights reserved.
+//  Uses Automatic reference counting (ARC).
 //
 
 #import "Sequence.h"

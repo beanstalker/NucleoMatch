@@ -4,6 +4,7 @@
 //
 //  Created by John Hervey on 26/07/12.
 //  Copyright (c) 2012 JRDH. All rights reserved.
+//  Uses Automatic reference counting (ARC).
 //
 
 #import <Foundation/Foundation.h>
@@ -46,7 +47,7 @@ int main(int argc, const char * argv[])
             encoding = NSUTF8StringEncoding;
         }
         if (data == nil) {
-            NSLog(@"Can't read %@. Check encoding (UTF8 preferable).", filename);
+            NSLog(@"Can't read %@. Check encoding (Try UTF8).", filename);
             return 3;
         }
         NSLog(@"Encoding of %@ was %lu", filename, encoding);
