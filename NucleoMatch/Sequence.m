@@ -10,13 +10,42 @@
 
 @implementation Sequence
 
-@synthesize percentGC;
 @synthesize seq;
-@synthesize type;
+
+-(void) calculateAndSetGCContent
+{
+    if (seq != nil) {
+        int numberGC = 0;
+        for (int i = 0; i < [seq length]; i++) {
+            if ([seq characterAtIndex:i] == 'G' ||
+                [seq characterAtIndex:i] == 'C') {
+                numberGC++;
+            }
+        }
+        percentGC = numberGC / [seq length] * 100;
+    }
+}
+-(void) calculateNucleicAcidType
+{
+    if (seq != nil) {
+        for (int i = 0; i < [seq length]; i++) {
+            if ([seq characterAtIndex:i] == 'U') {
+                type = RNA;
+                return;
+            }
+            if ([seq characterAtIndex:i] == 'T') {
+                type = DNA;
+                return;
+            }
+        }
+    }
+}
 
 -(void) print
 {
-    NSLog(@"seq  %@", seq);
+    NSLog(@"Sequence: %@", seq);
+    NSLog(@"Type of nucleic acid: %@", [self dnaOrRNA]);
+    NSLog(@"Percent G/C content: %f", percentGC);
 }
 
 -(BOOL) isEqual:(Sequence *)theSequence
@@ -32,8 +61,23 @@
 {
     self = [super init];
     seq = [[NSString alloc] initWithString:theSequence];
-    //type = acid;
+    [self calculateAndSetGCContent];
+    [self calculateNucleicAcidType];
     return self;
+}
+
+-(double) percentGC
+{
+    return percentGC;
+}
+
+-(NSString *) dnaOrRNA
+{
+    if (type == RNA) {
+        return @"RNA";
+    } else {
+        return @"DNA";
+    }
 }
 
 @end

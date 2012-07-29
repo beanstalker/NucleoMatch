@@ -48,7 +48,7 @@
         //[[NSFileHandle fileHandleWithStandardOutput] writeData:[[theSeq seq] dataUsingEncoding: NSUTF8StringEncoding]];
         //- (NSString *)debugDescription;
     }
-    NSLog(@"%i", numberOfSequences);
+    NSLog(@"Number of sequences: %i", numberOfSequences);
 }
 
 @end

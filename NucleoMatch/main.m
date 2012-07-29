@@ -33,7 +33,7 @@ int main(int argc, const char * argv[])
         }
         filename = [args objectAtIndex:1];
         if ([fm isReadableFileAtPath:filename] == NO) {
-            NSLog(@"2 Can't read %@", filename);
+            NSLog(@"Can't read %@", filename);
             return 2;
         }
         data = [NSString stringWithContentsOfFile:filename
@@ -46,7 +46,7 @@ int main(int argc, const char * argv[])
             encoding = NSUTF8StringEncoding;
         }
         if (data == nil) {
-            NSLog(@"3 Can't read %@", filename);
+            NSLog(@"Can't read %@. Check encoding (UTF8 preferable).", filename);
             return 3;
         }
         NSLog(@"Encoding of %@ was %lu", filename, encoding);

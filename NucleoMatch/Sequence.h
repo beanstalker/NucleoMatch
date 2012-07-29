@@ -13,16 +13,16 @@ typedef enum {RNA, DNA} nucleicAcidType;
 @interface Sequence : NSObject
 {
     NSString *seq;
-    int percentGC;
+    double percentGC;
     nucleicAcidType type;
 }
 
 @property (copy, nonatomic) NSString *seq;
-@property (nonatomic) int percentGC;
-@property (nonatomic) nucleicAcidType type;
 
 -(void) print;
 -(BOOL) isEqual:(Sequence *)theSequence;
 -(id) initWithSequence:(NSString *)theSequence;
+-(double) percentGC;
+-(NSString *) dnaOrRNA;
 
 @end
