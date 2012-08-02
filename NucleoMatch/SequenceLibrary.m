@@ -20,8 +20,8 @@
     self = [super init];
     if (self) {
         seqLib = [[NSMutableArray alloc] init];
+        numberOfSequences = 0;
     }
-    numberOfSequences = 0;
     return self;
 }
 

@@ -12,6 +12,10 @@
 		C10568B615C1166B0079B3DC /* NucleoMatch.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C10568B515C1166B0079B3DC /* NucleoMatch.1 */; };
 		C10568BE15C11EFF0079B3DC /* Sequence.m in Sources */ = {isa = PBXBuildFile; fileRef = C10568BD15C11EFF0079B3DC /* Sequence.m */; };
 		C10568C115C11F7D0079B3DC /* SequenceLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = C10568C015C11F7D0079B3DC /* SequenceLibrary.m */; };
+		C12899F615CA53D700FEFE8C /* SuffixTree.m in Sources */ = {isa = PBXBuildFile; fileRef = C12899F515CA53D700FEFE8C /* SuffixTree.m */; };
+		C12899FA15CA568D00FEFE8C /* Edge.m in Sources */ = {isa = PBXBuildFile; fileRef = C12899F915CA568D00FEFE8C /* Edge.m */; };
+		C12899FD15CA56EE00FEFE8C /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = C12899FC15CA56EE00FEFE8C /* Node.m */; };
+		C1289A0015CA575900FEFE8C /* Suffix.m in Sources */ = {isa = PBXBuildFile; fileRef = C12899FF15CA575900FEFE8C /* Suffix.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +41,14 @@
 		C10568BD15C11EFF0079B3DC /* Sequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sequence.m; sourceTree = "<group>"; };
 		C10568BF15C11F7D0079B3DC /* SequenceLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequenceLibrary.h; sourceTree = "<group>"; };
 		C10568C015C11F7D0079B3DC /* SequenceLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequenceLibrary.m; sourceTree = "<group>"; };
+		C12899F415CA53D700FEFE8C /* SuffixTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuffixTree.h; sourceTree = "<group>"; };
+		C12899F515CA53D700FEFE8C /* SuffixTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuffixTree.m; sourceTree = "<group>"; };
+		C12899F815CA568D00FEFE8C /* Edge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Edge.h; sourceTree = "<group>"; };
+		C12899F915CA568D00FEFE8C /* Edge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Edge.m; sourceTree = "<group>"; };
+		C12899FB15CA56EE00FEFE8C /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		C12899FC15CA56EE00FEFE8C /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		C12899FE15CA575800FEFE8C /* Suffix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suffix.h; sourceTree = "<group>"; };
+		C12899FF15CA575900FEFE8C /* Suffix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Suffix.m; sourceTree = "<group>"; };
 		C194A86915C3C08500DC88B0 /* RNAseqs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RNAseqs.txt; sourceTree = "<group>"; };
 		C194A86B15C3C0AF00DC88B0 /* SmallSeqs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = SmallSeqs.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,6 +99,14 @@
 				C10568C015C11F7D0079B3DC /* SequenceLibrary.m */,
 				C10568BC15C11EFF0079B3DC /* Sequence.h */,
 				C10568BD15C11EFF0079B3DC /* Sequence.m */,
+				C12899F415CA53D700FEFE8C /* SuffixTree.h */,
+				C12899F515CA53D700FEFE8C /* SuffixTree.m */,
+				C12899F815CA568D00FEFE8C /* Edge.h */,
+				C12899F915CA568D00FEFE8C /* Edge.m */,
+				C12899FB15CA56EE00FEFE8C /* Node.h */,
+				C12899FC15CA56EE00FEFE8C /* Node.m */,
+				C12899FE15CA575800FEFE8C /* Suffix.h */,
+				C12899FF15CA575900FEFE8C /* Suffix.m */,
 				C10568B515C1166B0079B3DC /* NucleoMatch.1 */,
 				C10568B315C1166B0079B3DC /* Supporting Files */,
 				C194A86B15C3C0AF00DC88B0 /* SmallSeqs.txt */,
@@ -155,6 +175,10 @@
 				C10568B215C1166B0079B3DC /* main.m in Sources */,
 				C10568BE15C11EFF0079B3DC /* Sequence.m in Sources */,
 				C10568C115C11F7D0079B3DC /* SequenceLibrary.m in Sources */,
+				C12899F615CA53D700FEFE8C /* SuffixTree.m in Sources */,
+				C12899FA15CA568D00FEFE8C /* Edge.m in Sources */,
+				C12899FD15CA56EE00FEFE8C /* Node.m in Sources */,
+				C1289A0015CA575900FEFE8C /* Suffix.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

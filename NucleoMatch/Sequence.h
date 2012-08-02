@@ -1,9 +1,9 @@
 //
 //  Sequence.h
-//  NucleoMatch
+//  NecleoAlign
 //
-//  Created by John Hervey on 26/07/12.
-//  Copyright (c) 2012 JRDH. All rights reserved.
+//  Created by John Hervey on 29/07/12.
+//  Copyright (c) 2012 John Hervey. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -23,6 +23,8 @@ typedef enum {RNA, DNA} nucleicAcidType;
 -(BOOL) isEqual:(Sequence *)theSequence;
 -(id) initWithSequence:(NSString *)theSequence;
 -(double) percentGC;
+-(int) length;
 -(NSString *) dnaOrRNA;
+-(const char) charAtPosition:(int) position;
 
 @end

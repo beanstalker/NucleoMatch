@@ -1,10 +1,9 @@
 //
 //  Sequence.m
-//  NucleoMatch
+//  NecleoAlign
 //
-//  Created by John Hervey on 26/07/12.
-//  Copyright (c) 2012 JRDH. All rights reserved.
-//  Uses Automatic reference counting (ARC).
+//  Created by John Hervey on 29/07/12.
+//  Copyright (c) 2012 John Hervey. All rights reserved.
 //
 
 #import "Sequence.h"
@@ -23,9 +22,10 @@
                 numberGC++;
             }
         }
-        percentGC = numberGC / [seq length] * 100;
+        percentGC = (numberGC / (float) [seq length]) * 100;
     }
 }
+
 -(void) calculateNucleicAcidType
 {
     if (seq != nil) {
@@ -51,7 +51,7 @@
 
 -(BOOL) isEqual:(Sequence *)theSequence
 {
-    if ([seq isEqualToString:theSequence.seq]) {
+    if ([seq isEqualToString:[theSequence seq]]) {
         return YES;
     } else {
         return NO;
@@ -61,15 +61,22 @@
 -(id) initWithSequence:(NSString *)theSequence
 {
     self = [super init];
-    seq = [[NSString alloc] initWithString:theSequence];
-    [self calculateAndSetGCContent];
-    [self calculateNucleicAcidType];
+    if (self) {
+        seq = [[NSString alloc] initWithString:theSequence];
+        [self calculateAndSetGCContent];
+        [self calculateNucleicAcidType];
+    }
     return self;
 }
 
 -(double) percentGC
 {
     return percentGC;
+}
+
+-(int) length
+{
+    return (int) [seq length];
 }
 
 -(NSString *) dnaOrRNA
@@ -79,6 +86,11 @@
     } else {
         return @"DNA";
     }
+}
+
+-(const char) charAtPosition:(int)position
+{
+    return [seq characterAtIndex:position];
 }
 
 @end
