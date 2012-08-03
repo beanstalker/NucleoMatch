@@ -11,8 +11,10 @@
 
 @interface Edge : NSObject
 {
-    int firstCharacterIndex, lastCharacterIndex;
-    int startNode, endNode;
+    long firstCharacterIndex, lastCharacterIndex;
+    long startNode, endNode;
 }
+
+-(id) initWithFirstChar:(long) first lastChar:(long) last parentNode:(long) node;
 
 @end

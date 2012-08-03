@@ -11,6 +11,9 @@
 @interface Suffix : NSObject
 {
     BOOL leafNode, explicitNode, implicitNode;
+    long firstCharacter, lastCharacter, originNode;
 }
+
+-(id) initWithFirstChar:(long) first lastChar:(long) last originNode:(long) node;
 
 @end
