@@ -14,9 +14,12 @@
 @interface SuffixTree : NSObject
 {
     NSMutableArray *nodes;
+    NSMutableArray *edges;
     NSString *inputString;
     Node *root;
-    long currentSuffix, lastIndex, numberOfNodes;
+    Node *activeNode;
+    Edge *activeEdge;
+    long currentSuffix, lastIndex, numberOfNodes, activeLength, remainder;
 }
 
 -(id) initWithString:(NSString *) theString;
