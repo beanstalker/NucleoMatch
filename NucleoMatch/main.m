@@ -116,7 +116,7 @@ int main(int argc, const char * argv[])
         long queryScores[[queries count]];
         //Initialise the queryScores to 0
         for (long z = 0; z < [queries count]; z++) {
-            queryScores[i] = 0;
+            queryScores[z] = 0;
         }
         //Calculate all query hashes
         //BAD!!! USES ? in hash! NO NO NO
@@ -125,6 +125,7 @@ int main(int argc, const char * argv[])
         long queryHashes[[queries count]];
         long queryLength = k;
         for (long z = 0; z < [queries count]; z++) {
+            queryHashes[z] = 0;
             for (int w = 0; w < queryLength; w++) {
                 queryHashes[z] += ([[queries objectAtIndex:z] characterAtIndex:w] * (long) pow(5, (queryLength - w + 1)) % 2049);
             }
