@@ -155,7 +155,7 @@ int main(int argc, const char * argv[])
             } else {
                 seqHash = -1;
             }
-            //NSLog(@"Hash of sequence %li : %li", seqcount, seqHash);
+            NSLog(@"Hash of sequence %li : %li", seqcount, seqHash);
             for (long z = 0; z < (seqLength - queryLength); z++) {
                 //
                 count++;
