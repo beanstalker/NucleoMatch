@@ -8,11 +8,13 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "SequenceLibrary.h"
-//#import "Sequence.h"
 #import <stdio.h>
 #import <stdlib.h>
 #import <math.h>
+
+#define prime 2049
+#define alpha 256
+#define kvalue 3
 
 int main(int argc, const char * argv[])
 {
@@ -21,10 +23,8 @@ int main(int argc, const char * argv[])
         
         
         //Get an input file from a filepath given as an argument.
-        //Process the input file into individual sequences and store in a
-        // SequenceLibrary object.
-        //SequenceLibrary *library = [[SequenceLibrary alloc] init];
-        //Sequence *seq;
+        //Process the input file into individual strings (one per line of the
+        // input file) and store in an array.
         NSMutableArray *library = [[NSMutableArray alloc] init];
         NSMutableString *seq;
         NSProcessInfo *process = [NSProcessInfo processInfo];
@@ -35,15 +35,18 @@ int main(int argc, const char * argv[])
         NSScanner *scanner;
         NSCharacterSet *newline = [NSCharacterSet newlineCharacterSet];
         
+        //Check for argument
         if ([args count] != 2) {
             NSLog(@"Usage: %@ filename", [process processName]);
             return 1;
         }
         filename = [args objectAtIndex:1];
+        //Check that argument is a filepath that points to a readable file
         if ([fm isReadableFileAtPath:filename] == NO) {
             NSLog(@"Can't read %@", filename);
             return 2;
         }
+        //Guess and check file encoding
         data = [NSString stringWithContentsOfFile:filename
                                      usedEncoding:&encoding
                                             error:nil];
@@ -58,18 +61,16 @@ int main(int argc, const char * argv[])
             return 3;
         }
         NSLog(@"Encoding of %@ was %lu", filename, encoding);
+        //Process file into strings
         scanner = [NSScanner scannerWithString:data];
         while ([scanner isAtEnd] == NO) {
             [scanner scanUpToCharactersFromSet:newline intoString:&line];
-            //NSLog(@"line %@", line);
             seq = [[NSMutableString alloc] initWithString:line];
-            //[seq print];
             [library addObject:seq];
         }
-        //[library print];
-        for (NSMutableString *str in library) {
+        /*for (NSMutableString *str in library) {
             printf("%s\n", [str cStringUsingEncoding:NSUTF8StringEncoding]);
-        }
+        }*/
         NSLog(@"Number of sequences: %li", [library count]);
         
         //Calculate all k-mer query patterns. These will be the search terms
@@ -79,7 +80,7 @@ int main(int argc, const char * argv[])
         NSArray *xAlphabet = [NSArray arrayWithObjects:@"A", @"C", @"G", @"U", @"?", nil];
         NSMutableArray *queries = [[NSMutableArray alloc] init];
         long i, v;
-        long k = 3;
+        long k = kvalue;
         long count = 0;
         long numberOfCases = 16 * pow(5 , (k - 2));
         
@@ -99,13 +100,13 @@ int main(int argc, const char * argv[])
         }
         NSLog(@"No. queries looped: %li", count);
         //print the array to confirm
-        long count1 = 0;
+        /*long count1 = 0;
         for (NSMutableString *str in queries) {
             fprintf(stderr, "%s\n", [str cStringUsingEncoding:NSUTF8StringEncoding]);
             count1++;
         }
         NSLog(@"No. queries printed: %li", count1);
-        NSLog(@"Counts match? : %@", (count == count1 ? @"YES" : @"NO"));
+        NSLog(@"Counts match? : %@", (count == count1 ? @"YES" : @"NO"));*/
         NSLog(@"Queries in array: %li", [queries count]);
         
         //Use Rabin-karp algorithm to search the sequence library with all
@@ -113,40 +114,51 @@ int main(int argc, const char * argv[])
         // with a given pattern. Multiple matches within the same sequence only
         // count as one hit. We want the number of sequences that have a match
         // (one or more) NOT the total number of matches.
-        long queryScores[[queries count]];
+        long numberOfQueries = [queries count];
+        NSMutableArray *queryScores = [[NSMutableArray alloc] initWithCapacity:numberOfQueries];
         //Initialise the queryScores to 0
-        for (long z = 0; z < [queries count]; z++) {
-            queryScores[z] = 0;
+        for (long z = 0; z < numberOfQueries; z++) {
+            [queryScores addObject:[NSNumber numberWithLong:0]];
         }
-        //Calculate all query hashes
-        //BAD!!! USES ? in hash! NO NO NO
-        //Could precalculate hash for all queries that do not contain ? and flag the ones
-        // that do for calculation later?
-        long queryHashes[[queries count]];
+        //Calculate query hashes (except any that contain wildcard "?")
+        NSMutableArray *queryHashes = [[NSMutableArray alloc] initWithCapacity:numberOfQueries];
         long queryLength = k;
-        for (long z = 0; z < [queries count]; z++) {
-            queryHashes[z] = 0;
+        for (long z = 0; z < numberOfQueries; z++) {
+            [queryHashes addObject:[NSNumber numberWithLong:0]];
             for (int w = 0; w < queryLength; w++) {
-                queryHashes[z] += ([[queries objectAtIndex:z] characterAtIndex:w] * (long) pow(5, (queryLength - w + 1)) % 2049);
+                long currentHashValue = [[queryHashes objectAtIndex:z] longValue];
+                if (currentHashValue != -1 && [[queries objectAtIndex:z] characterAtIndex:w] != '?') {
+                    [queryHashes replaceObjectAtIndex:z
+                                           withObject:[NSNumber numberWithLong:(currentHashValue + ([[queries objectAtIndex:z] characterAtIndex:w] * (long) pow(5, (queryLength - w + 1)) % prime))]];
+                } else {//flag queries that contain wildcard
+                    [queryHashes replaceObjectAtIndex:z
+                                           withObject:[NSNumber numberWithLong:-1]];
+                }
             }
         }
-        for (long z = 0; z < [queries count]; z++) {
-            NSLog(@"Hash of query %li : %li", (z + 1), queryHashes[z]);
-        }
+        /*for (long z = 0; z < numberOfQueries; z++) {
+            NSLog(@"Hash of query %li, %@ : %li", (z + 1), [queries objectAtIndex:z], [[queryHashes objectAtIndex:z] longValue]);
+        }*/
         //TEST this implementation for speed with other input file and other k's before
         // implementing rabin karp rolling hash amd comparison
         //Search the sequences
+        long seqcount = 0;
         for (NSMutableString *currentSeq in library) {
             long seqLength = [currentSeq length];
             long seqHash = 0;
-            //Calculate first window hash
-            for (int w = 0; w < queryLength; w++) {
-                seqHash += ([currentSeq characterAtIndex:w] * (long) pow(5, (queryLength - w + 1)) % 2049);
+            seqcount++;
+            if (seqLength >= queryLength) {
+                //Calculate first window hash
+                for (int w = 0; w < queryLength; w++) {
+                    seqHash += ([currentSeq characterAtIndex:w] * (long) pow(5, (queryLength - w + 1)) % prime);
+                }
+            } else {
+                seqHash = -1;
             }
-            NSLog(@"Hash of sequence %li", seqHash);
+            //NSLog(@"Hash of sequence %li : %li", seqcount, seqHash);
             for (long z = 0; z < (seqLength - queryLength); z++) {
                 //
-                NSLog(@"%@", currentSeq);
+                count++;
             }
         }
     }
