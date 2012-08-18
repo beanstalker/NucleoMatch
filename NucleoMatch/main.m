@@ -82,6 +82,7 @@ int main(int argc, const char * argv[])
         NSMutableArray *queries = [[NSMutableArray alloc] init];
         long i, v;
         long k = kvalue;
+        scanf("%li", &k);
         long count = 0;
         long numberOfCases = 16 * pow(5 , (k - 2));
         
