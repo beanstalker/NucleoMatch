@@ -179,7 +179,7 @@ int main(int argc, const char * argv[])
                         //Reset to remove -1 flag and then calculate all possible hash values
                         [queryHashValues removeAllObjects];
                         [queryHashValues addObject:[NSNumber numberWithLong:0]];
-                        long numberWildcardHashes = 1;
+                        //long numberWildcardHashes = 1;
                         for (long v = 0; v < queryLength; v++) {
                             for (NSNumber *currentHashValueObject in queryHashValues) {
                                 long currentHashValue = [currentHashValueObject longValue];
@@ -187,7 +187,7 @@ int main(int argc, const char * argv[])
                                     const char currentChar = [currentQuery characterAtIndex:v];
                                     currentHashValue = (alpha * currentHashValue + currentChar) % prime;
                                 } else {
-                                    numberWildcardHashes += 4;
+                                    //numberWildcardHashes += 4;
                                     [queryHashValues addObject:[NSNumber numberWithLong:(alpha * currentHashValue + 'A') % prime]];
                                     [queryHashValues addObject:[NSNumber numberWithLong:(alpha * currentHashValue + 'C') % prime]];
                                     [queryHashValues addObject:[NSNumber numberWithLong:(alpha * currentHashValue + 'G') % prime]];
@@ -197,19 +197,22 @@ int main(int argc, const char * argv[])
                         }
                     }
                     //NSLog(@"Current seqHash : %li Current queryHash : %li", seqHash, queryHashValue);
-                    if (queryHashValue == seqHash) {
-                        //Check for correct match
-                        long y;
-                        for (y = 0; y < queryLength; y++) {
-                            if ([currentSeq characterAtIndex:(z + y)] != [currentQuery characterAtIndex:y] && [currentQuery characterAtIndex:y] != '?') {
-                                break;
+                    for (NSNumber *currentHashValue in queryHashValues) {
+                        queryHashValue = [currentHashValue longValue];
+                        if (queryHashValue == seqHash) {
+                            //Check for correct match
+                            long y;
+                            for (y = 0; y < queryLength; y++) {
+                                if ([currentSeq characterAtIndex:(z + y)] != [currentQuery characterAtIndex:y] && [currentQuery characterAtIndex:y] != '?') {
+                                    break;
+                                }
                             }
-                        }
-                        //If not break, then correct match: increment scores
-                        if (y == queryLength) {
-                            long score = [[queryScores objectAtIndex:w] longValue];
-                            [queryScores replaceObjectAtIndex:w
-                                                   withObject:[NSNumber numberWithLong:(score + 1)]];
+                            //If not break, then correct match: increment scores
+                            if (y == queryLength) {
+                                long score = [[queryScores objectAtIndex:w] longValue];
+                                [queryScores replaceObjectAtIndex:w
+                                                       withObject:[NSNumber numberWithLong:(score + 1)]];
+                            }
                         }
                     }
                 }
@@ -242,17 +245,25 @@ int main(int argc, const char * argv[])
         }*/
         
         //Number of queries that occur in pN sequences:
-        FILE *outputFile = fopen("fixedQueries.txt", "w");
+        FILE *outputFileFixed = fopen("fixedPatterns.txt", "w");
+        FILE *outputFileVariable = fopen("variablePatterns.txt", "w");
         long numberFixedPatterns = 0;
-        for (long z = 0; z < [totalQueryScores count]; z++) {
+        long numberVariablePatterns = 0;
+        for (long z = 0; z < numberOfQueries; z++) {
             NSNumber *patternScore = [totalQueryScores objectAtIndex:z];
             if ([patternScore longValue] > (pValue * [library count])) {
-                numberFixedPatterns++;
-                fprintf(outputFile, "%s\n", [[queries objectAtIndex:z] cStringUsingEncoding:NSUTF8StringEncoding]);
+                if ([[queryHashes objectAtIndex:z] longValue] != -1) {
+                    numberFixedPatterns++;
+                    fprintf(outputFileFixed, "%s\n", [[queries objectAtIndex:z] cStringUsingEncoding:NSUTF8StringEncoding]);
+                } else {
+                    numberVariablePatterns++;
+                    fprintf(outputFileVariable, "%s\n", [[queries objectAtIndex:z] cStringUsingEncoding:NSUTF8StringEncoding]);
+                }
             }
         }
         NSLog(@"Number fixed patterns: %li", numberFixedPatterns);
-        fclose(outputFile);
+        fclose(outputFileFixed);
+        fclose(outputFileVariable);
         
     }//end autoreleasepool
     return 0;
