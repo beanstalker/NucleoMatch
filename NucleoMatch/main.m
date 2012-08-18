@@ -46,6 +46,7 @@ int main(int argc, const char * argv[])
             NSLog(@"Can't read %@", filename);
             return 2;
         }
+        //Get k value
         long k = [[args objectAtIndex:2] integerValue];
         //Guess and check file encoding
         data = [NSString stringWithContentsOfFile:filename
@@ -74,6 +75,7 @@ int main(int argc, const char * argv[])
         }*/
         NSLog(@"Number of sequences: %li", [library count]);
         
+        
         //Calculate all k-mer query patterns. These will be the search terms
         // when searching the sequences from the input file for frequent
         // patterns.
@@ -81,14 +83,14 @@ int main(int argc, const char * argv[])
         NSArray *xAlphabet = [NSArray arrayWithObjects:@"A", @"C", @"G", @"U", @"?", nil];
         NSMutableArray *queries = [[NSMutableArray alloc] init];
         long i, v;
-        long count = 0;
+        //long count = 0;
         long numberOfCases = 16 * pow(5 , (k - 2));
         
         for (long n = 0; n < numberOfCases; n++) {
             i = n;
             v = i % 4;//4 letters in alphabet
             i = i / 4;
-            count++;
+            //count++;
             NSMutableString *query = [[NSMutableString alloc] initWithString:[yAlphabet objectAtIndex:v]];
             for (long m = 1; m < (k - 1); m++) {
                 v = i % 5;//5 letters in alphabet
@@ -109,6 +111,7 @@ int main(int argc, const char * argv[])
         NSLog(@"Counts match? : %@", (count == count1 ? @"YES" : @"NO"));*/
         NSLog(@"Queries in array: %li", [queries count]);
         
+        
         //Use Rabin-karp algorithm to search the sequence library with all
         // query patterns. Record the number of sequences that have a match
         // with a given pattern. Multiple matches within the same sequence only
@@ -118,40 +121,40 @@ int main(int argc, const char * argv[])
         long numberOfQueries = [queries count];
         NSMutableArray *queryScores = [[NSMutableArray alloc] initWithCapacity:numberOfQueries];
         NSMutableArray *totalQueryScores = [[NSMutableArray alloc] initWithCapacity:numberOfQueries];
+        NSMutableArray *queryHashes = [[NSMutableArray alloc] initWithCapacity:numberOfQueries];
         
         //Initialise the queryScores to 0
-        for (long z = 0; z < numberOfQueries; z++) {
+        for (long a = 0; a < numberOfQueries; a++) {
             [queryScores addObject:[NSNumber numberWithLong:0]];
         }
         
         //Initialise the totalQueryScores to 0
-        for (long z = 0; z < numberOfQueries; z++) {
+        for (long a = 0; a < numberOfQueries; a++) {
             [totalQueryScores addObject:[NSNumber numberWithLong:0]];
         }
         
         //Calculate query hashes (except any that contain wildcard "?")
-        NSMutableArray *queryHashes = [[NSMutableArray alloc] initWithCapacity:numberOfQueries];
         long queryLength = k;
         long hasher = 1;
         
-        for (long z = 0; z < queryLength - 1; z++) {
+        for (long a = 0; a < queryLength - 1; a++) {
             hasher = (hasher * alpha) % prime;
         }
         
-        for (long z = 0; z < numberOfQueries; z++) {
+        for (long a = 0; a < numberOfQueries; a++) {
             
             //Initialise queryHashes to zero
             [queryHashes addObject:[NSNumber numberWithLong:0]];
             
             //Caclulate hash values (except any that contain wildcard "?")
-            for (long w = 0; w < queryLength; w++) {
-                long currentHashValue = [[queryHashes objectAtIndex:z] longValue];
+            for (long b = 0; b < queryLength; b++) {
+                long currentHashValue = [[queryHashes objectAtIndex:a] longValue];
                 
-                if (currentHashValue != -1 && [[queries objectAtIndex:z] characterAtIndex:w] != '?') {
-                    [queryHashes replaceObjectAtIndex:z
-                                           withObject:[NSNumber numberWithLong:((alpha * currentHashValue + ([[queries objectAtIndex:z] characterAtIndex:w])) % prime)]];
+                if (currentHashValue != -1 && [[queries objectAtIndex:a] characterAtIndex:b] != '?') {
+                    [queryHashes replaceObjectAtIndex:a
+                                           withObject:[NSNumber numberWithLong:((alpha * currentHashValue + ([[queries objectAtIndex:a] characterAtIndex:b])) % prime)]];
                 } else {//flag queries that contain wildcard
-                    [queryHashes replaceObjectAtIndex:z
+                    [queryHashes replaceObjectAtIndex:a
                                            withObject:[NSNumber numberWithLong:-1]];
                 }
             }
@@ -159,17 +162,17 @@ int main(int argc, const char * argv[])
         /*for (long z = 0; z < numberOfQueries; z++) {
             NSLog(@"Hash of query %li, %@ : %li", (z + 1), [queries objectAtIndex:z], [[queryHashes objectAtIndex:z] longValue]);
         }*/
-        long seqcount = 0;
+        //long seqcount = 0;
         //For every sequence
         for (NSMutableString *currentSeq in library) {
             long seqLength = [currentSeq length];
             long seqHash = 0;
-            seqcount++;
+            //seqcount++;
             if (seqLength >= queryLength) {
                 
                 //Calculate first window hash
-                for (long w = 0; w < queryLength; w++) {
-                    seqHash = ((alpha * seqHash) + [currentSeq characterAtIndex:w]) % prime;
+                for (long a = 0; a < queryLength; a++) {
+                    seqHash = ((alpha * seqHash) + [currentSeq characterAtIndex:a]) % prime;
                 }
             } else {//If the sequence is shorter than the query, then there is no hash
                 seqHash = -1;
@@ -177,35 +180,68 @@ int main(int argc, const char * argv[])
             //NSLog(@"Hash of sequence %li : %li", seqcount, seqHash);
             
             //Slide the query over the sequence character by character
-            for (long z = 0; z < (seqLength - queryLength); z++) {
+            for (long a = 0; a < (seqLength - queryLength); a++) {
                 
                 //Check every query against the current window
-                for (long w = 0; w < numberOfQueries; w++) {
-                    NSMutableString *currentQuery = [queries objectAtIndex:w];
+                for (long b = 0; b < numberOfQueries; b++) {
+                    NSMutableString *currentQuery = [queries objectAtIndex:b];
                     NSMutableArray *wildCardHashValues = [[NSMutableArray alloc] initWithCapacity:1];
-                    long queryHashValue = [[queryHashes objectAtIndex:w] longValue];
+                    long queryHashValue = [[queryHashes objectAtIndex:b] longValue];
                     [wildCardHashValues addObject:[NSNumber numberWithLong:queryHashValue]];
                     
                     //If it is a wildcard sequence, calculate the hash for each character replacement
                     if (queryHashValue == -1) {
                         //Reset to remove -1 flag and then calculate all possible hash values
                         [wildCardHashValues removeAllObjects];
-                        [wildCardHashValues addObject:[NSNumber numberWithLong:0]];
-                        long numberWildcardHashes = 1;
-                        for (long v = 0; v < queryLength; v++) {
-                            for (long u = 0; u < numberWildcardHashes; u++) {
-                                NSNumber *currentHashValueObject = [wildCardHashValues objectAtIndex:u];
-                                long currentHashValue = [currentHashValueObject longValue];
-                                if ([currentQuery characterAtIndex:v] != '?') {
-                                    const char currentChar = [currentQuery characterAtIndex:v];
-                                    currentHashValue = (alpha * currentHashValue + currentChar) % prime;
-                                } else {
-                                    numberWildcardHashes += 4;
-                                    [wildCardHashValues addObject:[NSNumber numberWithLong:(alpha * currentHashValue + 'A') % prime]];
-                                    [wildCardHashValues addObject:[NSNumber numberWithLong:(alpha * currentHashValue + 'C') % prime]];
-                                    [wildCardHashValues addObject:[NSNumber numberWithLong:(alpha * currentHashValue + 'G') % prime]];
-                                    [wildCardHashValues addObject:[NSNumber numberWithLong:(alpha * currentHashValue + 'U') % prime]];
+                        
+                        //Calculate total number of wildcardhashes
+                        long numberOfWildcards = 0;
+                        for (long c = 0; c < queryLength; c++) {
+                            if ([currentQuery characterAtIndex:c] == '?') {
+                                numberOfWildcards++;
+                            }
+                        }
+                        long numberOfWildcardQueries = pow(4, numberOfWildcards);
+                        //Array to store all possible queries given query with wildcards
+                        NSMutableArray *wildCardQueries = [[NSMutableArray alloc] initWithCapacity:numberOfWildcardQueries];
+                        
+                        //Calculate all of the wildcard queries
+                        for (long c = 0; c < numberOfWildcardQueries; c++) {
+                            i = c;
+                            v = i % 4;//4 letters in alphabet
+                            i = i / 4;
+                            //count++;
+                            NSMutableString *query = [[NSMutableString alloc] initWithString:[yAlphabet objectAtIndex:v]];
+                            for (long d = 1; d < (k - 1); d++) {
+                                v = i % 4;//4 letters in alphabet
+                                i = i / 4;
+                                [query appendString:[yAlphabet objectAtIndex:v]];
+                            }
+                            [query appendString:[yAlphabet objectAtIndex:i]];
+                            [wildCardQueries addObject:query];
+                        }
+                        //Add non-"?" characters from query into wildcardqueries at correct positions
+                        for (long c = 0; c < queryLength; c++) {
+                            const unichar currentCharacter[1] = {[currentQuery characterAtIndex:c]};
+                            if (currentCharacter[0] != '?') {
+                                NSString *characterToInsert = [[NSString alloc] initWithCharacters:currentCharacter length:1];
+                                for (NSMutableString *wildcardQuery in wildCardQueries) {
+                                    [wildcardQuery insertString:characterToInsert atIndex:c];
                                 }
+                            }
+                        }
+                        //Calculate the hashes of each wildcard query
+                        //Initialise all to zero
+                        for (long c = 0; c < numberOfWildcardQueries; c++) {
+                            [wildCardHashValues addObject:[NSNumber numberWithLong:0]];
+                        }
+                        //Calculate hash
+                        for (long c = 0; c < numberOfWildcardQueries; c++) {
+                            NSNumber *currentHashValueObject = [wildCardHashValues objectAtIndex:c];
+                            long currentHashValue = [currentHashValueObject longValue];
+                            for (long d = 0; d < queryLength; d++) {
+                            [wildCardHashValues replaceObjectAtIndex:c
+                                                          withObject:[NSNumber numberWithLong: (alpha * currentHashValue + ([[wildCardQueries objectAtIndex:c] characterAtIndex:d])) % prime]];
                             }
                         }
                     }
@@ -214,26 +250,26 @@ int main(int argc, const char * argv[])
                         queryHashValue = [currentHashValue longValue];
                         if (queryHashValue == seqHash) {
                             //Check for correct match
-                            long y;
-                            for (y = 0; y < queryLength; y++) {
-                                if ([currentSeq characterAtIndex:(z + y)] != [currentQuery characterAtIndex:y] && [currentQuery characterAtIndex:y] != '?') {
+                            long c;
+                            for (c = 0; c < queryLength; c++) {
+                                if ([currentSeq characterAtIndex:(a + c)] != [currentQuery characterAtIndex:c] && [currentQuery characterAtIndex:c] != '?') {
                                     collisions++;
                                     break;
                                 }
                             }
                             //If not break, then correct match: increment scores
-                            if (y == queryLength) {
-                                long score = [[queryScores objectAtIndex:w] longValue];
-                                [queryScores replaceObjectAtIndex:w
+                            if (c == queryLength) {
+                                long score = [[queryScores objectAtIndex:b] longValue];
+                                [queryScores replaceObjectAtIndex:b
                                                        withObject:[NSNumber numberWithLong:(score + 1)]];
                             }
                         }
                     }
                 }
                 //Calculate hash value for next window
-                if (z < (seqLength - queryLength)) {
+                if (a < (seqLength - queryLength)) {
                     //Remove leading character and add trailing character to hash value
-                    seqHash = ((alpha * (seqHash - ([currentSeq characterAtIndex:z] * hasher))) + [currentSeq characterAtIndex:(z + queryLength)]) % prime;
+                    seqHash = ((alpha * (seqHash - ([currentSeq characterAtIndex:a] * hasher))) + [currentSeq characterAtIndex:(a + queryLength)]) % prime;
                     //Make positive if need be
                     if (seqHash < 0) {
                         seqHash = seqHash + prime;
@@ -241,13 +277,13 @@ int main(int argc, const char * argv[])
                 }
             }
             //Normalise to total queryscores (number of sequences with 1 or more rather than total number of hits in all sequences)
-            for (long w = 0; w < numberOfQueries; w++) {
-                if ([[queryScores objectAtIndex:w] longValue] > 0) {
-                    long currentNormalScore = [[totalQueryScores objectAtIndex:w] longValue];
-                    [totalQueryScores replaceObjectAtIndex:w
+            for (long a = 0; a < numberOfQueries; a++) {
+                if ([[queryScores objectAtIndex:a] longValue] > 0) {
+                    long currentNormalScore = [[totalQueryScores objectAtIndex:a] longValue];
+                    [totalQueryScores replaceObjectAtIndex:a
                                                 withObject:[NSNumber numberWithLong:(currentNormalScore + 1)]];
                     //reset queryscores
-                    [queryScores replaceObjectAtIndex:w
+                    [queryScores replaceObjectAtIndex:a
                                            withObject:[NSNumber numberWithLong:0]];
                 }
             }
