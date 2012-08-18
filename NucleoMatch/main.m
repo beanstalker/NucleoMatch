@@ -115,6 +115,7 @@ int main(int argc, const char * argv[])
         // with a given pattern. Multiple matches within the same sequence only
         // count as one hit. We want the number of sequences that have a match
         // (one or more) NOT the total number of matches.
+        long collisions = 0;
         long numberOfQueries = [queries count];
         NSMutableArray *queryScores = [[NSMutableArray alloc] initWithCapacity:numberOfQueries];
         //Initialise the queryScores to 0
@@ -204,6 +205,7 @@ int main(int argc, const char * argv[])
                             long y;
                             for (y = 0; y < queryLength; y++) {
                                 if ([currentSeq characterAtIndex:(z + y)] != [currentQuery characterAtIndex:y] && [currentQuery characterAtIndex:y] != '?') {
+                                    collisions++;
                                     break;
                                 }
                             }
@@ -262,6 +264,7 @@ int main(int argc, const char * argv[])
             }
         }
         NSLog(@"Number fixed patterns: %li", numberFixedPatterns);
+        NSLog(@"Number of collisions: %li", collisions);
         fclose(outputFileFixed);
         fclose(outputFileVariable);
         
