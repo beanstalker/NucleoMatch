@@ -265,38 +265,37 @@ int main(int argc, const char * argv[])
                 //Check every query against the current window
                 for (long b = 0; b < numberOfQueries; b++) {
                     //Check if already found a match for current query
-                    if ([[queryScores objectAtIndex:b] longValue] > 0) {
-                        break;
-                    }
-                    NSMutableString *currentQuery = [queries objectAtIndex:b];
-                    NSMutableArray *wildCardHashValues = [[NSMutableArray alloc] initWithCapacity:1];
-                    long queryHashValue = [[queryHashes objectAtIndex:b] longValue];
-                    [wildCardHashValues addObject:[NSNumber numberWithLong:queryHashValue]];
-                    if (queryHashValue < 0) {
-                        wildCardHashValues = [wildcardHashArray objectAtIndex:((queryHashValue * -1) - 1)];
-                    }
-                    
-                    //Look for matches
-                    for (NSNumber *currentHashValue in wildCardHashValues) {
-                        queryHashValue = [currentHashValue longValue];
-                        if (queryHashValue == seqHash) {
-                            //Check for correct match
-                            long c;
-                            for (c = 0; c < queryLength; c++) {
-                                if ([currentSeq characterAtIndex:(a + c)] != [currentQuery characterAtIndex:c] && [currentQuery characterAtIndex:c] != '?') {
-                                    collisions++;
-                                    break;
+                    if ([[queryScores objectAtIndex:b] longValue] == 0) {
+                        NSMutableString *currentQuery = [queries objectAtIndex:b];
+                        NSMutableArray *wildCardHashValues = [[NSMutableArray alloc] initWithCapacity:1];
+                        long queryHashValue = [[queryHashes objectAtIndex:b] longValue];
+                        [wildCardHashValues addObject:[NSNumber numberWithLong:queryHashValue]];
+                        if (queryHashValue < 0) {
+                            wildCardHashValues = [wildcardHashArray objectAtIndex:((queryHashValue * -1) - 1)];
+                        }
+                        
+                        //Look for matches
+                        for (NSNumber *currentHashValue in wildCardHashValues) {
+                            queryHashValue = [currentHashValue longValue];
+                            if (queryHashValue == seqHash) {
+                                //Check for correct match
+                                long c;
+                                for (c = 0; c < queryLength; c++) {
+                                    if ([currentSeq characterAtIndex:(a + c)] != [currentQuery characterAtIndex:c] && [currentQuery characterAtIndex:c] != '?') {
+                                        collisions++;
+                                        break;
+                                    }
                                 }
-                            }
-                            //If not break, then correct match: increment scores
-                            if (c == queryLength) {
-                                long score = [[queryScores objectAtIndex:b] longValue];
-                                [queryScores replaceObjectAtIndex:b
-                                                       withObject:[NSNumber numberWithLong:(score + 1)]];
+                                //If not break, then correct match: increment scores
+                                if (c == queryLength) {
+                                    long score = [[queryScores objectAtIndex:b] longValue];
+                                    [queryScores replaceObjectAtIndex:b
+                                                           withObject:[NSNumber numberWithLong:(score + 1)]];
+                                }
                             }
                         }
                     }
-                }//If already found a match
+                }
                 //Calculate hash value for next window
                 if (a < (seqLength - queryLength)) {
                     //Remove leading character and add trailing character to hash value
@@ -346,9 +345,9 @@ int main(int argc, const char * argv[])
         time = (long double)(time2 - time1) / (long double)CLOCKS_PER_SEC;
         FILE *results = fopen("results.csv", "a");
         fprintf(results, "%li, %li, %li, %li, %Lf\n", k, numberFixedPatterns, numberVariablePatterns, collisions, time);
-        //NSLog(@"Number fixed patterns: %li", numberFixedPatterns);
-        //NSLog(@"Number variable patterns: %li", numberVariablePatterns);
-        //NSLog(@"Number of collisions: %li", collisions);
+        NSLog(@"Number fixed patterns: %li", numberFixedPatterns);
+        NSLog(@"Number variable patterns: %li", numberVariablePatterns);
+        NSLog(@"Number of collisions: %li", collisions);
         fclose(outputFileFixed);
         fclose(outputFileVariable);
         fclose(results);
