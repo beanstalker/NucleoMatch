@@ -340,12 +340,14 @@ int main(int argc, const char * argv[])
         }
         time2 = clock();
         time = (long double)(time2 - time1) / (long double)CLOCKS_PER_SEC;
+        FILE *results = fopen("results.csv", "a");
         printf("%li, %li, %li, %li, %Lf\n", k, numberFixedPatterns, numberVariablePatterns, collisions, time);
         //NSLog(@"Number fixed patterns: %li", numberFixedPatterns);
         //NSLog(@"Number variable patterns: %li", numberVariablePatterns);
         //NSLog(@"Number of collisions: %li", collisions);
         fclose(outputFileFixed);
         fclose(outputFileVariable);
+        fclose(results);
         
     }//end autoreleasepool
     return 0;
