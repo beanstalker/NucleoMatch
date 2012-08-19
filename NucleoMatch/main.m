@@ -264,6 +264,10 @@ int main(int argc, const char * argv[])
                 
                 //Check every query against the current window
                 for (long b = 0; b < numberOfQueries; b++) {
+                    //Check if already found a match for current query
+                    if ([[queryScores objectAtIndex:b] longValue] > 0) {
+                        break;
+                    }
                     NSMutableString *currentQuery = [queries objectAtIndex:b];
                     NSMutableArray *wildCardHashValues = [[NSMutableArray alloc] initWithCapacity:1];
                     long queryHashValue = [[queryHashes objectAtIndex:b] longValue];
@@ -292,7 +296,7 @@ int main(int argc, const char * argv[])
                             }
                         }
                     }
-                }
+                }//If already found a match
                 //Calculate hash value for next window
                 if (a < (seqLength - queryLength)) {
                     //Remove leading character and add trailing character to hash value
